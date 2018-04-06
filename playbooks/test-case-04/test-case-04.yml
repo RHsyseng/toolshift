@@ -1,0 +1,10 @@
+---
+- name: '[ToolShift][Testcase-04] Base Provision'
+  hosts: localhost
+  connection: local
+  roles:
+    - { role: infra_provision, action: '' }
+
+
+  #- name: '[ToolShift][Testcase-04] OCP + Insight + Tower + Self remediation'
+  #  hosts:
