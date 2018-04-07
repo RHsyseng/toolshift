@@ -1,4 +1,7 @@
 ---
+# How to Execute:
+# ansible-playbook -i inv test-case-04.yml -v
+
 - name: '[ToolShift][Testcase-04] Base Provision'
   hosts: all 
   become: false
