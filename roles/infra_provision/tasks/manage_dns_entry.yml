@@ -1,0 +1,36 @@
+---
+- block:
+  - name: "[INFRA_PROVISION][MANAGE_DNS][DEBUG] State: {{ state }}"
+    debug:
+      msg: 
+      - "Entering on DNS {{ state }}"
+      - "VM Name: {{ hostvars['localhost']['os_instance']['openstack']['name'] }}"
+      - "IP: {{ hostvars['localhost']['os_instance']['openstack']['accessIPv4'] }}"
+      - "DNS Server: {{ hostvars['dns_server']['ansible_default_ipv4']['address'] }}"
+      verbosity: 1
+    when: state == 'present'
+    
+  - name: "[INFRA_PROVISION][MANAGE_DNS] Add DNS Entry"
+    nsupdate:
+      state: "{{ state }}"
+      key_name: 'ddns-key'
+      key_secret: 'eDkYzCpKpXJhGp5Py0V3x05l+Lynk0K6rN8eB66Xhwk='
+      key_algorithm: 'hmac-sha256'
+      server: "{{ hostvars['dns_server']['ansible_default_ipv4']['address'] }}"
+      zone: "{{ domain_sufix }}"
+      record: "{{ hostvars['localhost']['os_instance']['openstack']['name'] }}"
+      value: "{{ hostvars['localhost']['os_instance']['openstack']['accessIPv4'] }}"
+    when: state == 'present'
+    
+  - name: "[INFRA_PROVISION][MANAGE_DNS] Remove DNS Entry"
+    nsupdate:
+      state: "{{ state }}"
+      key_name: 'ddns-key'
+      key_secret: 'eDkYzCpKpXJhGp5Py0V3x05l+Lynk0K6rN8eB66Xhwk='
+      key_algorithm: 'hmac-sha256'
+      server: "{{ hostvars['dns_server']['ansible_default_ipv4']['address'] }}"
+      zone: "{{ domain_sufix }}"
+      record: "{{ vm_name }}"
+    when: state == 'absent'
+
+  when: inventory_hostname == 'dns_server'

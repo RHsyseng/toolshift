@@ -1,0 +1,34 @@
+---
+- name: '[INFRA_PROVISION][VALIDATIONS][DEBUG] Loaded Variables'
+  debug:
+    msg:
+      - "Testcase: {{ testcase }}"
+      - "Name: {{ vm_name }}"
+      - "Flavor: {{ os_flavor }}"
+      - "Image: {{ os_image }}"
+      - "Vol Size: {{ volume_size }}"
+    verbosity: 1
+
+
+- name: '[INFRA_PROVISION][VALIDATIONS] Checking Ansible variables'
+  fail:
+    msg: "Check The undefined variables: {{ item }}"
+  when:
+    - item is undefined or item is none
+  with_items:
+  ## Constants
+    - "{{ OS_AUTH_URL }}"
+    - "{{ OS_USERNAME }}"
+    - "{{ OS_PASSWORD }}"
+    - "{{ OS_TENANT_NAME }}"
+    - "{{ OS_NET_NAME }}"
+    - "{{ OS_AZ }}"
+    - "{{ OS_KEYNAME }}"
+    - "{{ domain_sufix }}"
+  ## Entry Variables
+    - "{{ os_flavor }}"
+    - "{{ os_image }}"
+    - "{{ volume_size }}"
+    - "{{ vm_name }}"
+  no_log: True
+

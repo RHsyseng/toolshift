@@ -1,0 +1,25 @@
+---
+- name: "[INFRA_PROVISION][MANAGE_INSTANCE] State: {{ state }}"
+  os_server:
+    state: "{{ state }}"
+    auth:
+      auth_url: "{{ OS_AUTH_URL }}"
+      username: "{{ OS_USERNAME }}"
+      password: "{{ OS_PASSWORD }}"
+      project_name: "{{ OS_TENANT_NAME }}"
+    name: "{{ vm_name }}.{{ domain_sufix }}"
+    availability_zone: "{{ OS_AZ }}"
+    timeout: 500
+    boot_from_volume: true
+    terminate_volume: true
+    volume_size: "{{ volume_size }}"
+    auto_ip: true
+    nics: "net-name={{ OS_NET_NAME }}"
+    image: "{{ os_image }}"
+    flavor: "{{ os_flavor }}"
+    validate_certs: false
+    key_name: "{{ OS_KEYNAME }}"
+    wait: yes
+  register: os_instance
+  when: inventory_hostname == 'localhost'
+
