@@ -1,2 +1,14 @@
 ---
-# defaults file for infra_provision
+domain_sufix: 'tclab.cloud.lab.eng.bos.redhat.com'
+OS_AUTH_URL: 'https://rhos-ocp.infra.prod.upshift.eng.rdu2.redhat.com:13000/v3' 
+OS_USERNAME: 'soleng-shared'
+OS_TENANT_NAME: 'devops-utils'
+OS_NET_NAME: 'provider_net_devops_utils'
+OS_AZ: 'nova'
+OS_KEYNAME: 'jparrill'
+
+# Default values for role parameters
+vm_name: 'default'
+os_image: 'RHEL-7.4'
+os_flavor: 'ocp-lb'
+volume_size: 40

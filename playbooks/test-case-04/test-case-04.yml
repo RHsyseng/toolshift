@@ -1,9 +1,14 @@
 ---
 - name: '[ToolShift][Testcase-04] Base Provision'
-  hosts: localhost
-  connection: local
+  hosts: all 
+  become: false
+  vars:
+    testcase: 04
+  vars_prompt:
+    - name: "OS_PASSWORD"
+      prompt: 'Openstack Tenant Password'
   roles:
-    - { role: infra_provision, action: '' }
+    - { role: infra_provision, state: 'absent', vm_name: 'test-ansible', os_flavor: 'ocp-lb', os_image: 'RHEL-7.4', volume_size: '20' }
 
 
   #- name: '[ToolShift][Testcase-04] OCP + Insight + Tower + Self remediation'

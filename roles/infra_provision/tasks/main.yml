@@ -1,2 +1,20 @@
 ---
+- name: "[TestCase: {{ testcase }}][INFRA_PROVISION] Validation tasks"
+  import_tasks: validations.yml
 
+- name: "[TestCase: {{ testcase }}][INFRA_PROVISION] Manage Openstack Instance/s"
+  include_tasks: manage_instance.yml
+
+- name: '[INFRA_PROVISION][MANAGE_INSTANCE][DEBUG] Loaded Variables'
+  run_once: true
+  debug:
+    msg:
+      - "Testcase: {{ testcase }}"
+      - "Name: {{ os_instance.openstack.name }}"
+      - "Ipv4: {{ os_instance.openstack.accessIPv4 }}"
+  when:
+    - inventory_hostname == 'localhost'
+    - state == 'present'
+
+- name: "[INFRA_PROVISION][MANAGE_DNS] Manage DNS Entry/ies"
+  include_tasks: manage_dns_entry.yml
