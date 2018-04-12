@@ -1,0 +1,72 @@
+[OSEv3:children]
+nodes
+masters
+nfs
+etcd
+
+[OSEv3:vars]
+openshift_master_cluster_public_hostname=ocplab-master.covenant
+openshift_master_default_subdomain=apps.covenant
+ansible_ssh_user=root
+openshift_master_cluster_hostname=ocplab-master.covenant
+openshift_override_hostname_check=true
+deployment_type=openshift-enterprise
+ansible_service_broker_local_registry_whitelist=['.*-apb$']
+openshift_disable_check=memory_availability,disk_availability,docker_storage
+openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/master/htpasswd'}]
+openshift_clock_enabled=true
+osm_default_node_selector="region=apps"
+
+containerized=False
+
+# Cri-O
+openshift_use_crio=true
+openshift_crio_enable_docker_gc=true
+openshift_crio_docker_gc_node_selector={'runtime': 'cri-o'}
+container_runtime_docker_storage_type=overlay2
+
+# Etcd
+openshift_hosted_etcd_storage_nfs_directory=/exports/etcd
+openshift_hosted_etcd_storage_volume_name=etcd-vol2
+openshift_hosted_etcd_storage_access_modes=["ReadWriteOnce"]
+openshift_hosted_etcd_storage_volume_size=1G
+openshift_hosted_etcd_storage_labels={'storage': 'etcd'}
+
+
+# Prometheus
+#openshift_prometheus_namespace=openshift-infra
+#openshift_prometheus_node_selector={"region":"infra"}
+
+#openshift_prometheus_storage_kind=nfs
+#openshift_prometheus_storage_type=pvc
+#openshift_prometheus_pvc_name=prometheus
+#openshift_prometheus_pvc_size=5G
+#openshift_prometheus_pvc_access_modes=ReadWriteOnce
+
+#openshift_prometheus_alertmanager_storage_kind=nfs
+#openshift_prometheus_alertmanager_storage_type=pvc
+#openshift_prometheus_alertmanager_pvc_name=prometheus-alertmanager
+#openshift_prometheus_alertmanager_pvc_size=5G
+#openshift_prometheus_alertmanager_pvc_access_modes=ReadWriteOnce
+
+#openshift_prometheus_alertbuffer_storage_kind=nfs
+#openshift_prometheus_alertbuffer_storage_type=pvc
+#openshift_prometheus_alertbuffer_pvc_name=prometheus-alertbuffer
+#openshift_prometheus_alertbuffer_pvc_size=5G
+#openshift_prometheus_alertbuffer_pvc_access_modes=ReadWriteOnce
+
+[nodes]
+ocplab-master  openshift_public_ip=192.168.123.116 openshift_ip=192.168.123.116 openshift_public_hostname=ocplab-master.covenant openshift_hostname=ocplab-master.covenant openshift_schedulable=True openshift_node_labels="{'runtime': 'cri-o', 'region': 'apps'}"
+ocplab-infra01  openshift_public_ip=192.168.123.111 openshift_ip=192.168.123.111 openshift_public_hostname=ocplab-infra01.covenant openshift_hostname=ocplab-infra01.covenant openshift_schedulable=True openshift_node_labels="{'region': 'infra', 'runtime': 'cri-o'}" 
+ocplab-node01  openshift_public_ip=192.168.123.37 openshift_ip=192.168.123.37 openshift_public_hostname=ocplab-node01.covenant openshift_hostname=ocplab-node01.covenant openshift_schedulable=True openshift_node_labels="{'runtime': 'cri-o', 'region': 'apps'}"
+ocplab-node02  openshift_public_ip=192.168.123.85 openshift_ip=192.168.123.85 openshift_public_hostname=ocplab-node02.covenant openshift_hostname=ocplab-node02.covenant openshift_schedulable=True openshift_node_labels="{'runtime': 'cri-o', 'region': 'apps'}"
+ocplab-node03  openshift_public_ip=192.168.123.13 openshift_ip=192.168.123.13 openshift_public_hostname=ocplab-node03.covenant openshift_hostname=ocplab-node03.covenant openshift_schedulable=True openshift_node_labels="{'runtime': 'cri-o', 'region': 'apps'}"
+
+[masters]
+ocplab-master  openshift_public_ip=192.168.123.116 openshift_ip=192.168.123.116 openshift_public_hostname=ocplab-master.covenant openshift_hostname=ocplab-master.covenant openshift_node_labels="{'runtime': 'cri-o', 'region': 'apps'}"
+
+[nfs]
+ocplab-master  openshift_public_ip=192.168.123.116 openshift_ip=192.168.123.116 openshift_public_hostname=ocplab-master.covenant openshift_hostname=ocplab-master.covenant
+
+[etcd]
+ocplab-master  openshift_public_ip=192.168.123.116 openshift_ip=192.168.123.116 openshift_public_hostname=ocplab-master.covenant openshift_hostname=ocplab-master.covenant
