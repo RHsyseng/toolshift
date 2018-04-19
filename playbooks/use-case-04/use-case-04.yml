@@ -11,7 +11,9 @@
     - name: "OS_PASSWORD"
       prompt: 'Openstack Tenant Password'
   roles:
-    - { role: infra_provision, state: 'absent', vm_name: 'test-ansible-01', os_flavor: 'ocp-lb', os_image: 'RHEL-7.4', volume_size: '20' }
+    - { role: infra_provision, state: 'present', vm_name: 'jp-rhsso-test', os_flavor: 'ocp-lb', os_image: 'RHEL-7.4', volume_size: '20' }
+    - { role: infra_provision, state: 'present', vm_name: 'cloudforms', os_flavor: 'Small', os_image: 'CFME-5.9.1', volume_size: '80' }                                                                                                                                                                                             
+
 
 
   #- name: '[ToolShift][Testcase-04] OCP + Insight + Tower + Self remediation'
